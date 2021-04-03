@@ -8,6 +8,7 @@ const pcMQL = window.matchMedia("all and (min-width: 1024px)");
 const ENDPOINT = 5;
 const select = [];
 const start_btn = document.querySelector('.start');
+const animal = document.querySelector('.result');
 let qIdx = -1;
 
 
@@ -87,7 +88,6 @@ const goResult = () => {
   const img_url = 'img/image-' + grade + '.png';
   const res_img = document.createElement('img');
   const res_img_div = document.querySelector('.art');
-  const animal = document.querySelector('.result');
   const desc = document.querySelector('.res');
 
   pTitle.innerHTML = u_name.value + ' 님의 점수는...';
@@ -109,27 +109,13 @@ const goResult = () => {
       'fade-in 0.5s forwards';
   }, 600);
 
-  let sendResult = document.getElementById('send-result');
+  // let sendResult = document.getElementById('send-result');
 
-  sendResult.addEventListener('click', () => {
-    sendResult.innerText = '저장완료!!';
-    sendResult.style.border = "none";
-    let colorRes = animal.textContent;
+  // sendResult.addEventListener('click', () => {
+  //   sendResult.innerText = '저장완료!!';
+  //   sendResult.style.border = "none";
 
-
-    axios({
-      url: 'http://13.124.115.223:8040' + '/survey',
-      method: 'post',
-      data: {
-        survey: colorRes
-      }
-    }).then((res) => {
-      console.log(res);
-      console.log(colorRes)
-    }).catch((err) => {
-      console.log(err);
-    })
-  })
+  // })
 
 }
 
@@ -158,6 +144,26 @@ const end = () => {
       goResult();
     }, 400);
   }, 9000);
+
+  // let colorRes = animal.textContent;
+  setTimeout(() => {
+    let name = document.getElementById("name").value;
+
+    axios({
+      url: 'http://3.36.113.167:8040' + '/survey',
+      method: 'post',
+      data: {
+        survey: animal.textContent,
+        name: name
+      }
+    }).then((res) => {
+      console.log(res)
+      console.log(animal.textContent, name);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }, 10000)
+
 }
 
 const addAnswer = (answerTxt, idx) => {
@@ -252,8 +258,8 @@ const load = () => {
     }
   });
   start_btn.addEventListener('click', async () => {
-    let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
+    let name = document.getElementById("name").value;
     try {
       if (u_name.value.length < 1) {
         throw '이름을 입력하고 시작해 주세요.';
@@ -262,7 +268,7 @@ const load = () => {
       start_btn.disabled = true;
       begin();
       await axios({
-        url: 'http://13.124.115.223:8040',
+        url: 'http://3.36.113.167:8040',
         method: 'post',
         data: {
           name: name,
@@ -274,8 +280,6 @@ const load = () => {
       msg.innerHTML = err;
     }
   });
-
-
 }
 
 window.onload = load();
