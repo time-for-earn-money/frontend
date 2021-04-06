@@ -150,7 +150,7 @@ const end = () => {
     let name = document.getElementById("name").value;
 
     axios({
-      url: 'http://3.36.113.167:8040' + '/survey',
+      url: 'https://pagesurvey.herokuapp.com' + '/survey',
       method: 'post',
       data: {
         survey: animal.textContent,
@@ -268,7 +268,7 @@ const load = () => {
       start_btn.disabled = true;
       begin();
       await axios({
-        url: 'http://3.36.113.167:8040',
+        url: 'https://pagesurvey.herokuapp.com',
         method: 'post',
         data: {
           name: name,
